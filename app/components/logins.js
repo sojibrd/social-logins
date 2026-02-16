@@ -2,6 +2,22 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
 export default class LoginsComponent extends Component {
+  constructor(owner, args) {
+    super(owner, args);
+    this.checkGithubCallback();
+  }
+
+  checkGithubCallback() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    if (code) {
+      console.log('GitHub Code:', code);
+      alert(`GitHub Code received: ${code}`);
+      // Note: In a production app, you would send this 'code' to your backend
+      // to exchange it for an access token via the GitHub API.
+    }
+  }
+
   @action
   async loginWithGoogle() {
     await this.loadGoogleScript();
@@ -90,5 +106,13 @@ export default class LoginsComponent extends Component {
       console.log('User:', response);
       alert(`Welcome, ${response.name}!`);
     });
+  }
+
+  @action
+  loginWithGithub() {
+    const clientId = 'Ov23liLBvvd5WZth0O4u';
+    const redirectUri = window.location.href;
+    const scope = 'read:user';
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
   }
 }
