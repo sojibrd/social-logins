@@ -1,1 +1,16 @@
-<button type="button" {{on "click" this.loginWithGoogle}}>Login with Google</button>
+<h2>Login</h2>
+
+{{#if this.session.isAuthenticated}}
+  <button type="button" {{on "click" this.invalidateSession}}>Logout</button>
+{{else}}
+  <form {{on "submit" this.authenticate}}>
+    <label for="identification">Login</label>
+    <Input @id="identification" @value={{this.identification}} placeholder="Enter Login" />
+    <label for="password">Password</label>
+    <Input @id="password" @type="password" @value={{this.password}} placeholder="Enter Password" />
+    <button type="submit">Login</button>
+    {{#if this.errorMessage}}
+      <p>{{this.errorMessage}}</p>
+    {{/if}}
+  </form>
+{{/if}}

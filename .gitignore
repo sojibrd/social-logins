@@ -30,3 +30,5 @@
 
 # broccoli-debug
 /DEBUG/
+google-auth-express/node_modules/
+google-auth-express/.env
